@@ -293,16 +293,17 @@
         /* 任务栏（从旁边弹出的文字框） */
         #task-bar {
             position: absolute;
-            top: 62px;
+            top: 52px;
             left: 0;
             z-index: 15;
-            max-width: 78%;
+            max-width: 72%;
             background-color: rgba(20, 30, 24, 0.95);
             border: 1px solid var(--primary-green);
             border-left: none;
             box-shadow: 0 0 8px rgba(46,204,113,0.25), inset 0 0 12px rgba(46,204,113,0.08);
-            padding: 10px 15px;
-            font-size: 0.85rem;
+            padding: 8px 30px 8px 12px;
+            font-size: 0.78rem;
+            line-height: 1.4;
             border-radius: 0 8px 8px 0;
             transform: translateX(-105%);
             transition: transform 0.35s ease;
@@ -310,13 +311,23 @@
         #task-bar.active {
             transform: translateX(0);
         }
+        #task-bar .task-close {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0 4px;
+        }
 
         /* 内容滚动区 */
         #content {
             flex: 1;
             overflow-y: auto;
             padding: 14px 16px;
-            padding-bottom: 70px;
             line-height: 1.55;
             font-size: 0.95rem;
             scroll-behavior: smooth;
@@ -326,14 +337,11 @@
             text-indent: 2em;
         }
 
-        /* 选项/按钮区域 */
+        /* 选项/按钮区域（流式布局，不遮挡正文） */
         #choices {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 10px 16px;
-            background: linear-gradient(to top, rgba(26,26,26,1) 70%, rgba(26,26,26,0));
+            flex-shrink: 0;
+            padding: 10px 16px 14px;
+            background: linear-gradient(to top, rgba(26,26,26,1) 80%, rgba(26,26,26,0.6));
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -947,7 +955,7 @@
 
         // 渲染任务栏
         if (step.task && step.task !== "") {
-            taskBarEl.innerText = step.task;
+            taskBarEl.innerHTML = step.task + '<button class="task-close" onclick="document.getElementById(\'task-bar\').classList.remove(\'active\')">×</button>';
             taskBarEl.classList.add('active');
         } else {
             taskBarEl.classList.remove('active');
